@@ -1,0 +1,28 @@
+import pandas as pd
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, balanced_accuracy_score, accuracy_score
+    
+    df = pd.read_excel('\Directory')
+    X = pd.get_dummies(df.drop('approval', axis=1))
+    y = df['approval'].map({'no': 0, 'yes': 1})
+    X_train, X_test, y_train, y_test = train_test_split(X, y, 
+                                        test_size=0.2,   random_state=0)
+    rf_classifier = RandomForestClassifier(random_state=0)
+    rf_classifier.fit(X_train, y_train)
+    y_pred = rf_classifier.predict(X_test)
+    
+    accuracy= accuracy_score(y_test, y_pred)
+    g_mean = balanced_accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+    
+    print("Accuracy:", accuracy)
+    print("Precision:", precision)
+    print("Recall:", recall)
+    print("F1 Score:", f1)
+    print("G-mean:", g_mean)
+    cm = confusion_matrix(y_test, y_pred)
+    print("Confusion Matrix:")
+    print(cm)
